@@ -6,34 +6,37 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
-    interface MyComponent {
+    interface AmautaInputText {
+        "paramClass": string;
         "paramIn": string;
     }
 }
 declare global {
-    interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
+    interface HTMLAmautaInputTextElement extends Components.AmautaInputText, HTMLStencilElement {
     }
-    var HTMLMyComponentElement: {
-        prototype: HTMLMyComponentElement;
-        new (): HTMLMyComponentElement;
+    var HTMLAmautaInputTextElement: {
+        prototype: HTMLAmautaInputTextElement;
+        new (): HTMLAmautaInputTextElement;
     };
     interface HTMLElementTagNameMap {
-        "my-component": HTMLMyComponentElement;
+        "amauta-input-text": HTMLAmautaInputTextElement;
     }
 }
 declare namespace LocalJSX {
-    interface MyComponent {
+    interface AmautaInputText {
+        "onInputEvent"?: (event: CustomEvent<any>) => void;
+        "paramClass"?: string;
         "paramIn"?: string;
     }
     interface IntrinsicElements {
-        "my-component": MyComponent;
+        "amauta-input-text": AmautaInputText;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "amauta-input-text": LocalJSX.AmautaInputText & JSXBase.HTMLAttributes<HTMLAmautaInputTextElement>;
         }
     }
 }
