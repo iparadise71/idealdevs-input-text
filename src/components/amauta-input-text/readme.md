@@ -15,9 +15,10 @@
 
 ## Events
 
-| Event        | Description | Type               |
-| ------------ | ----------- | ------------------ |
-| `inputEvent` |             | `CustomEvent<any>` |
+| Event         | Description | Type               |
+| ------------- | ----------- | ------------------ |
+| `changeEvent` |             | `CustomEvent<any>` |
+| `inputEvent`  |             | `CustomEvent<any>` |
 
 
 ----------------------------------------------

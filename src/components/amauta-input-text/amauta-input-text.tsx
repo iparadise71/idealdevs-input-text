@@ -6,24 +6,23 @@ import { Component, Event, EventEmitter, h, Prop, State, Watch } from '@stencil/
 })
 export class AmautaInputText {
   @Prop() paramIn: string;
+  @Prop() paramClass: string;
   @State() paramInObject: any = {
     label: 'no label',
     type: 'text',
     value: 'no param'
   };
-
-  @Prop() paramClass: string;
   @State() paramClassObject: any = {
-    container: '',
-    label: '',
-    input: ''
+    container: 'container-class',
+    label: 'label-class',
+    input: 'input-class'
   };
-
+  @Event() inputEvent: EventEmitter<any>;
+  @Event() changeEvent: EventEmitter<any>;
   componentWillLoad() {
     this.parseParamInProp(this.paramIn);
     this.parseParamClassProp(this.paramClass);
   }
-
   @Watch('paramIn')
   parseParamInProp(newValue: string) {
     console.log(newValue);
@@ -38,7 +37,6 @@ export class AmautaInputText {
       console.log('paramInObject', this.paramInObject);
     }
   }
-
   @Watch('paramClass')
   parseParamClassProp(newValue: string) {
     console.log(newValue);
@@ -53,12 +51,9 @@ export class AmautaInputText {
       console.log('paramClassObject', this.paramClassObject);
     }
   }
-
-  @Event() inputEvent: EventEmitter<any>;
-
   handleChange(ev) {
     ev.target ? ev.target.value : null;
-    this.inputEvent.emit({
+    this.changeEvent.emit({
       type: 'onChange',
       event: ev.target ? ev.target.value : ''
     });

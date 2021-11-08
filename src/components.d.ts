@@ -24,6 +24,7 @@ declare global {
 }
 declare namespace LocalJSX {
     interface AmautaInputText {
+        "onChangeEvent"?: (event: CustomEvent<any>) => void;
         "onInputEvent"?: (event: CustomEvent<any>) => void;
         "paramClass"?: string;
         "paramIn"?: string;
