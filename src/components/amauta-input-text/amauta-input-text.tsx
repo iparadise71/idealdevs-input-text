@@ -2,7 +2,7 @@ import { Component, Event, EventEmitter, h, Prop, State, Watch } from '@stencil/
 
 @Component({
   tag: 'amauta-input-text',
-  shadow: true,
+  shadow: false,
 })
 export class AmautaInputText {
   @Prop() paramIn: string;
