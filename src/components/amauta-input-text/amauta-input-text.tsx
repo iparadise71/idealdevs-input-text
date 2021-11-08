@@ -1,45 +1,39 @@
 import { Component, Event, EventEmitter, h, Prop, State, Watch } from '@stencil/core';
+import { Utils } from './utils';
 
 @Component({
   tag: 'amauta-input-text',
   shadow: false,
 })
 export class AmautaInputText {
-  @Prop() paramIn: string;
+  @Prop() inputId: string = '';
+  @Prop() label: string = '';
+  @Prop() placeholder: string = '';
+  @Prop() type: string = '';
+  @Prop() value: any = '';
+  @Prop() typeValidate: string = '';
+  @Prop() readonly: boolean = false;
+  @Prop() validForm: boolean = false;
+
   @Prop() paramClass: string;
-  @State() paramInObject: any = {
-    label: 'no label',
-    type: 'text',
-    value: 'no param'
-  };
   @State() paramClassObject: any = {
-    container: 'container-class',
-    label: 'label-class',
-    input: 'input-class'
+    containerClass: 'container-class',
+    labelClass: 'label-class',
+    containerInputClass: 'container-input-class',
+    inputClass: 'input-class'
   };
-  @Event() inputEvent: EventEmitter<any>;
-  @Event() changeEvent: EventEmitter<any>;
+
+  @Event() eventOnFocusin: EventEmitter<any>;
+  @Event() eventOnFocusout: EventEmitter<any>;
+  @Event() eventOnChange: EventEmitter<any>;
+  @Event() eventOnKeyUp: EventEmitter<any>;
+
   componentWillLoad() {
-    this.parseParamInProp(this.paramIn);
     this.parseParamClassProp(this.paramClass);
   }
-  @Watch('paramIn')
-  parseParamInProp(newValue: string) {
-    console.log(newValue);
-    if (newValue){
-      if(typeof newValue === 'string'){
-        this.paramInObject = JSON.parse(newValue);
-      } else if(typeof newValue === 'object'){
-        this.paramInObject = newValue;
-      } else {
-        console.log('data no defined');
-      }
-      console.log('paramInObject', this.paramInObject);
-    }
-  }
+
   @Watch('paramClass')
   parseParamClassProp(newValue: string) {
-    console.log(newValue);
     if (newValue){
       if(typeof newValue === 'string'){
         this.paramClassObject = JSON.parse(newValue);
@@ -51,30 +45,80 @@ export class AmautaInputText {
       console.log('paramClassObject', this.paramClassObject);
     }
   }
-  handleChange(ev) {
-    ev.target ? ev.target.value : null;
-    this.changeEvent.emit({
-      type: 'onChange',
-      event: ev.target ? ev.target.value : ''
-    });
+
+  handleInput(ev, type){
+    const resultData = {
+      type: type,
+      event: ev.target ? ev.target.value : '',
+      validForm: this.validationType(ev.target ? ev.target.value : '')
+    }
+    switch(type) {
+      case 'onFocusin': {
+        this.eventOnFocusin.emit(resultData);
+        break;
+      }
+      case 'onFocusout': {
+        this.eventOnFocusout.emit(resultData);
+        break;
+      }
+      case 'onChange': {
+        this.eventOnChange.emit(resultData);
+        break;
+      }
+      case 'onKeyUp': {
+        this.eventOnKeyUp.emit(resultData);
+        break;
+      }
+      default: {
+        break;
+      }
+    }
   }
-  handleKeyUp(ev){
-    ev.target ? ev.target.value : null;
-    this.inputEvent.emit({
-      type: 'keyUp',
-      event: ev.target ? ev.target.value : ''
-    });
+
+  validationType(value){
+    let validForm = false;
+    if(this.readonly){
+      return true;
+    }
+    if(this.validForm){
+      return true;
+    }
+    if(this.type === 'text'){
+      if(this.typeValidate === 'name'){
+        const regName = Utils.nameRegEx;
+        return !!regName.test(value)
+      }
+      if(this.typeValidate === 'email'){
+        const reg = Utils.emailRegEx;
+        return !!reg.test(value)
+      }
+    }
+    if(this.type === 'email'){
+      const reg = Utils.emailRegEx;
+      return !!reg.test(value)
+    }
+    return validForm;
   }
   render() {
     return (
-      <div class={this.paramClassObject?.container}>
-        <label class={this.paramClassObject?.label}>{this.paramInObject?.label}</label>
-        <input type={this.paramInObject?.type}
-               value={this.paramInObject?.value}
-               class={this.paramClassObject?.input}
-               onInput={(ev) => this.handleChange(ev)}
-               onKeyUp={(ev) => this.handleKeyUp(ev)}
-        />
+      <div class={this.paramClassObject?.containerClass}>
+        <label id={this.inputId + 'Id'}
+               class={this.paramClassObject?.labelClass}
+        >{this.label}</label>
+        <div class={this.paramClassObject?.containerInputClass}>
+          <input id={this.inputId + 'Id'}
+                 class={this.paramClassObject?.inputClass}
+                 readonly={this.readonly}
+                 type={this.type}
+                 value={this.value}
+                 placeholder={this.placeholder}
+                 autocomplete={'off'}
+                 onFocusin={(ev) => this.handleInput(ev, 'onFocusin')}
+                 onFocusout={(ev) => this.handleInput(ev, 'onFocusout')}
+                 onInput={(ev) => this.handleInput(ev, 'onChange')}
+                 onKeyUp={(ev) => this.handleInput(ev, 'onKeyUp')}
+          />
+        </div>
       </div>
     );
   }

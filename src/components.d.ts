@@ -7,8 +7,15 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface AmautaInputText {
+        "inputId": string;
+        "label": string;
         "paramClass": string;
-        "paramIn": string;
+        "placeholder": string;
+        "readonly": boolean;
+        "type": string;
+        "typeValidate": string;
+        "validForm": boolean;
+        "value": any;
     }
 }
 declare global {
@@ -24,10 +31,19 @@ declare global {
 }
 declare namespace LocalJSX {
     interface AmautaInputText {
-        "onChangeEvent"?: (event: CustomEvent<any>) => void;
-        "onInputEvent"?: (event: CustomEvent<any>) => void;
+        "inputId"?: string;
+        "label"?: string;
+        "onEventOnChange"?: (event: CustomEvent<any>) => void;
+        "onEventOnFocusin"?: (event: CustomEvent<any>) => void;
+        "onEventOnFocusout"?: (event: CustomEvent<any>) => void;
+        "onEventOnKeyUp"?: (event: CustomEvent<any>) => void;
         "paramClass"?: string;
-        "paramIn"?: string;
+        "placeholder"?: string;
+        "readonly"?: boolean;
+        "type"?: string;
+        "typeValidate"?: string;
+        "validForm"?: boolean;
+        "value"?: any;
     }
     interface IntrinsicElements {
         "amauta-input-text": AmautaInputText;
