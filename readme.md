@@ -1,22 +1,30 @@
 ## @amauta/input-text
 
+
 ## Properties
 
-| Property     | Attribute     | Description | Type     | Default     |
-| ------------ | ------------- | ----------- | -------- | ----------- |
-| `paramClass` | `param-class` |             | `string` | `undefined` |
-| `paramIn`    | `param-in`    |             | `string` | `undefined` |
+| Property       | Attribute       | Description | Type      | Default                                                                                                                                                       |
+| -------------- | --------------- | ----------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `inputId`      | `input_id`      |             | `string`  | `''`                                                                                                                                                          |
+| `label`        | `label`         |             | `string`  | `''`                                                                                                                                                          |
+| `paramClass`   | `param_class`   |             | `any`     | `{     containerClass: 'container-class',     labelClass: 'label-class',     containerInputClass: 'container-input-class',     inputClass: 'input-class'   }` |
+| `placeholder`  | `placeholder`   |             | `string`  | `''`                                                                                                                                                          |
+| `readonly`     | `readonly`      |             | `boolean` | `false`                                                                                                                                                       |
+| `type`         | `type`          |             | `string`  | `''`                                                                                                                                                          |
+| `typeValidate` | `type_validate` |             | `string`  | `''`                                                                                                                                                          |
+| `validForm`    | `valid_form`    |             | `boolean` | `false`                                                                                                                                                       |
+| `value`        | `value`         |             | `any`     | `''`                                                                                                                                                          |
 
 
 ## Events
 
-| Event         | Description | Type               |
-| ------------- | ----------- | ------------------ |
-| `changeEvent` |             | `CustomEvent<any>` |
-| `inputEvent`  |             | `CustomEvent<any>` |
+| Event             | Description | Type               |
+| ----------------- | ----------- | ------------------ |
+| `eventOnChange`   |             | `CustomEvent<any>` |
+| `eventOnFocusin`  |             | `CustomEvent<any>` |
+| `eventOnFocusout` |             | `CustomEvent<any>` |
+| `eventOnKeyUp`    |             | `CustomEvent<any>` |
 
-
-----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*
 

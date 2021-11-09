@@ -1,4 +1,4 @@
-import { Component, Event, EventEmitter, h, Prop, State, Watch } from '@stencil/core';
+import { Component, Event, EventEmitter, h, Prop, Watch } from '@stencil/core';
 import { Utils } from './utils';
 
 @Component({
@@ -6,17 +6,16 @@ import { Utils } from './utils';
   shadow: false,
 })
 export class AmautaInputText {
-  @Prop() inputId: string = '';
+  @Prop({attribute: 'input_id'}) inputId: string = '';
   @Prop() label: string = '';
   @Prop() placeholder: string = '';
   @Prop() type: string = '';
   @Prop() value: any = '';
-  @Prop() typeValidate: string = '';
   @Prop() readonly: boolean = false;
-  @Prop() validForm: boolean = false;
 
-  @Prop() paramClass: string;
-  @State() paramClassObject: any = {
+  @Prop({attribute: 'type_validate'}) typeValidate: string = '';
+  @Prop({attribute: 'valid_form'}) validForm: boolean = false;
+  @Prop({attribute: 'param_class'}) paramClass: any = {
     containerClass: 'container-class',
     labelClass: 'label-class',
     containerInputClass: 'container-input-class',
@@ -29,28 +28,29 @@ export class AmautaInputText {
   @Event() eventOnKeyUp: EventEmitter<any>;
 
   componentWillLoad() {
-    this.parseParamClassProp(this.paramClass);
+    console.log('param inputId', this.inputId);
+    console.log('param label', this.label);
+    console.log('param placeholder', this.placeholder);
+    console.log('param type', this.type);
+    console.log('param value', this.value);
+    console.log('param type_validate', this.typeValidate);
+    console.log('param readonly', this.readonly);
+    console.log('param valid_form', this.typeValidate);
+    console.log('param param_class', this.paramClass);
   }
 
   @Watch('paramClass')
   parseParamClassProp(newValue: string) {
     if (newValue){
-      if(typeof newValue === 'string'){
-        this.paramClassObject = JSON.parse(newValue);
-      } else if(typeof newValue === 'object'){
-        this.paramClassObject = newValue;
-      } else {
-        console.log('data no defined');
-      }
-      console.log('paramClassObject', this.paramClassObject);
+      console.log('@Watch param_class', this.paramClass);
     }
   }
 
-  handleInput(ev, type){
+  async handleInput(ev, type){
     const resultData = {
       type: type,
       event: ev.target ? ev.target.value : '',
-      validForm: this.validationType(ev.target ? ev.target.value : '')
+      validForm: await this.validationType(ev.target ? ev.target.value : '')
     }
     switch(type) {
       case 'onFocusin': {
@@ -75,8 +75,7 @@ export class AmautaInputText {
     }
   }
 
-  validationType(value){
-    let validForm = false;
+  async validationType(value){
     if(this.readonly){
       return true;
     }
@@ -97,17 +96,18 @@ export class AmautaInputText {
       const reg = Utils.emailRegEx;
       return !!reg.test(value)
     }
-    return validForm;
+    console.log('valid', value);
+    return true;
   }
   render() {
     return (
-      <div class={this.paramClassObject?.containerClass}>
+      <div class={this.paramClass?.containerClass}>
         <label id={this.inputId + 'Id'}
-               class={this.paramClassObject?.labelClass}
+               class={this.paramClass?.labelClass}
         >{this.label}</label>
-        <div class={this.paramClassObject?.containerInputClass}>
+        <div class={this.paramClass?.containerInputClass}>
           <input id={this.inputId + 'Id'}
-                 class={this.paramClassObject?.inputClass}
+                 class={this.paramClass?.inputClass}
                  readonly={this.readonly}
                  type={this.type}
                  value={this.value}

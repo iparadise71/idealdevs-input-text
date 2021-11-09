@@ -9,7 +9,7 @@ export namespace Components {
     interface AmautaInputText {
         "inputId": string;
         "label": string;
-        "paramClass": string;
+        "paramClass": any;
         "placeholder": string;
         "readonly": boolean;
         "type": string;
@@ -37,7 +37,7 @@ declare namespace LocalJSX {
         "onEventOnFocusin"?: (event: CustomEvent<any>) => void;
         "onEventOnFocusout"?: (event: CustomEvent<any>) => void;
         "onEventOnKeyUp"?: (event: CustomEvent<any>) => void;
-        "paramClass"?: string;
+        "paramClass"?: any;
         "placeholder"?: string;
         "readonly"?: boolean;
         "type"?: string;
